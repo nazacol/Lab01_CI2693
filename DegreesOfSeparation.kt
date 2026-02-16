@@ -1,6 +1,9 @@
 import java.io.File
 import java.util.*
 
+// Nombre del archivo HARD CODED (como pide el profesor)
+const val ARCHIVO_AMISTADES = "input.txt"
+
 fun main(args: Array<String>) {
     // Verificar argumentos
     if (args.size < 2) {
@@ -12,44 +15,43 @@ fun main(args: Array<String>) {
     val persona1 = args[0]
     val persona2 = args[1]
     
-    val grados = calcularGradosSeparacion("input.txt", persona1, persona2)
+    // Usamos la constante con el nombre hard coded
+    val grados = calcularGradosSeparacion(persona1, persona2)
     println(grados)
 }
 
-fun calcularGradosSeparacion(archivo: String, persona1: String, persona2: String): Int {
-    val grafo = leerAmistades(archivo)
+fun calcularGradosSeparacion(persona1: String, persona2: String): Int {
+    val grafo = leerAmistades()
     return bfs(grafo, persona1, persona2)
 }
 
-fun leerAmistades(nombreArchivo: String): MutableMap<String, MutableSet<String>> {
+fun leerAmistades(): MutableMap<String, MutableSet<String>> {
     val grafo = mutableMapOf<String, MutableSet<String>>()
     
     try {
-        File(nombreArchivo).forEachLine { linea ->
+        // Aquí está HARD CODED el nombre del archivo
+        File(ARCHIVO_AMISTADES).forEachLine { linea ->
             val amigos = linea.trim().split(" ")
             if (amigos.size == 2) {
                 val amigo1 = amigos[0]
                 val amigo2 = amigos[1]
                 
-                // Agregar relación en ambos sentidos (es simétrica)
                 grafo.computeIfAbsent(amigo1) { mutableSetOf() }.add(amigo2)
                 grafo.computeIfAbsent(amigo2) { mutableSetOf() }.add(amigo1)
             }
         }
     } catch (e: Exception) {
-        println("Error al leer el archivo: ${e.message}")
+        println("Error al leer el archivo $ARCHIVO_AMISTADES: ${e.message}")
     }
     
     return grafo
 }
 
 fun bfs(grafo: Map<String, Set<String>>, inicio: String, destino: String): Int {
-    // Caso especial: misma persona
     if (inicio == destino) {
         return 0
     }
     
-    // Si alguna de las personas no está en el grafo
     if (!grafo.containsKey(inicio) || !grafo.containsKey(destino)) {
         return -1
     }
@@ -57,14 +59,12 @@ fun bfs(grafo: Map<String, Set<String>>, inicio: String, destino: String): Int {
     val visitados = mutableSetOf<String>()
     val cola: Queue<Pair<String, Int>> = LinkedList()
     
-    // Agregar el nodo inicial con distancia 0
     cola.add(Pair(inicio, 0))
     visitados.add(inicio)
     
     while (cola.isNotEmpty()) {
         val (personaActual, distancia) = cola.poll()
         
-        // Explorar todos los amigos de la persona actual
         grafo[personaActual]?.forEach { amigo ->
             if (amigo == destino) {
                 return distancia + 1
@@ -77,6 +77,5 @@ fun bfs(grafo: Map<String, Set<String>>, inicio: String, destino: String): Int {
         }
     }
     
-    // No hay conexión
     return -1
 }
