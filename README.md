@@ -6,7 +6,7 @@ Estudiante:
 Nombre: Nazareth Colmenares
 Carnet:20-10017
 
-Descripción del Proyecto
+Descripción del Laboratorio
 
 Este programa calcula los grados de separación entre dos personas en una red social de amistades. Los grados de separación representan la distancia mínima entre dos personas en el grafo de amistades:
 
