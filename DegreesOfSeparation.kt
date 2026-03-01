@@ -1,7 +1,7 @@
 import java.io.File
 import java.util.*
 
-// Nombre del archivo HARD CODED (como pide el profesor)
+// Nombre del archivo HARD CODED 
 const val ARCHIVO_AMISTADES = "input.txt"
 
 fun main(args: Array<String>) {
