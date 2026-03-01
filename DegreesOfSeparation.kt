@@ -1,11 +1,10 @@
 import java.io.File
 import java.util.*
 
-// Nombre del archivo HARD CODED 
+
 const val ARCHIVO_AMISTADES = "input.txt"
 
 fun main(args: Array<String>) {
-    // Verificar argumentos
     if (args.size < 2) {
         println("Error: Debe proporcionar dos nombres")
         println("Uso: java -jar DegreesOfSeparation.jar nombre1 nombre2")
@@ -14,8 +13,7 @@ fun main(args: Array<String>) {
     
     val persona1 = args[0]
     val persona2 = args[1]
-    
-    // Usamos la constante con el nombre hard coded
+
     val grados = calcularGradosSeparacion(persona1, persona2)
     println(grados)
 }
@@ -29,7 +27,6 @@ fun leerAmistades(): MutableMap<String, MutableSet<String>> {
     val grafo = mutableMapOf<String, MutableSet<String>>()
     
     try {
-        // Aquí está HARD CODED el nombre del archivo
         File(ARCHIVO_AMISTADES).forEachLine { linea ->
             val amigos = linea.trim().split(" ")
             if (amigos.size == 2) {
